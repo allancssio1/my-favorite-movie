@@ -1,8 +1,7 @@
 import { Request, Response } from "express"
-import {z} from 'zod'
-import { userModule } from "../models/users"
+import { z } from "zod"
 
-export const users = {
+export const userModule = {
   login: (req: Request, res: Response) => {
     const body = z.object({
       username: z.string({required_error: "Name is required",
@@ -18,8 +17,9 @@ export const users = {
       success: false
     })
 
-    userModule.login({username, password})
     
-    return res.send('logou')
+   
+    return 
+    
   }
 }
