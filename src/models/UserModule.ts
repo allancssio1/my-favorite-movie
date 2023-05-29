@@ -1,25 +1,65 @@
-import { Request, Response } from "express"
+import { Request } from "express"
 import { z } from "zod"
+import { userService } from "../services/UserService"
+import jwt from "jsonwebtoken"
+import {jwtConfig} from '../auth/config/auth'
+import { IUser } from "../interfaces"
 
 export const userModule = {
-  login: (req: Request, res: Response) => {
+  register: async (req: Request): Promise<boolean> => {
     const body = z.object({
-      username: z.string({required_error: "Name is required",
-      invalid_type_error: "Name must be a string",
-    }),
-      password: z.string()
+      username: z.string({
+        required_error: "Nome de usuário é obrigatório",
+        invalid_type_error: "Nome de usuário precisa ser do formato de texto.",
+      }),
+      password: z.string({
+        required_error: "Senha é obrigatório",
+        invalid_type_error: "Senha precisa ser do formato de texto",
+      }),
+      name: z.string({
+        required_error: "Nome do usuário é obrigatório",
+        invalid_type_error: "Nome do usuário ser do formato de texto",
+      })
     })
 
+    const {username, password, name} = body.parse(req.body)
+
+    const userAlreadyExists = await userService.findUser(username)
+    
+    if(userAlreadyExists !== null) return false
+    
+    await userService.create(username, password, name)
+    return true 
+  },
+  login: async (req: Request): Promise<any> => {
+    const body = z.object({
+      username: z.string({
+        required_error: "Nome de usuário é obrigatório",
+        invalid_type_error: "Nome de usuário precisa ser do formato de texto.",
+      }),
+      password: z.string({
+        required_error: "Senha é obrigatório",
+        invalid_type_error: "Senha precisa ser do formato de texto",
+      })
+    })
     const {username, password} = body.parse(req.body)
-
-    if(!username || !password) return res.status(401).json({
-      message: 'Campos de usuário e senha são obrigatórios!',
-      success: false
-    })
-
     
-   
-    return 
-    
+    const userAuth = await userService.findUserOnAuth(username, password) 
+
+    if (!userAuth) {
+      return null
+    }
+
+    const user = await userService.findUser(username)
+
+    const token = jwt.sign(
+      {
+        user: JSON.stringify(user),
+      },
+      jwtConfig.secret,
+      {expiresIn: jwtConfig.expireIn}
+      )
+
+    return user !== null ? {user, token} : null
   }
 }
