@@ -7,7 +7,6 @@ const routes = Router()
 
 routes.post('/user/login', userController.login)
 routes.post('/user/register', userController.register)
-routes.get('/', userController.all)
-routes.get('/home', authenticate, moviesController.findAll)
+routes.get('/movies/liked', authenticate, moviesController.moviesLikes)
 
 export {routes}

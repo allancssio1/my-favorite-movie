@@ -2,10 +2,11 @@ import { Request, Response } from "express";
 import { moviesModels } from "../models/MoviesModels";
 
 export const moviesController = {
-  findAll: async (req: Request, res: Response) => {
+  moviesLikes: async (req: Request, res: Response) => {
     const {user} = req.body
+    const id = user._id
 
-    const movies = user && await moviesModels.findMoviesAll()
+    const movies = user && await moviesModels.findMoviesLikes(id)
 
     if(movies === null) return res.json([])
 

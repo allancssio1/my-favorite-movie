@@ -1,8 +1,8 @@
 import { moviesService } from "../services/MoviesService";
 
 export const moviesModels =  {
-  findMoviesAll: async () => {
-    const movies = await moviesService.findAll()
+  findMoviesLikes: async (id: string) => {
+    const movies = await moviesService.findMoviesByUserId(id)
 
     return movies !== null ? movies : null
     

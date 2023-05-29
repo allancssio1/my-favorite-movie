@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 const MoviesLikesSchema = new mongoose.Schema({
   movieId: {type: String, require: true},
   user_id: {type: String, require: true},
-  likes: {type: Number, require: true}
 }, {
   timestamps: true
 })

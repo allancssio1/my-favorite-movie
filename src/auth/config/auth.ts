@@ -1,3 +1,5 @@
+import { env } from "node:process"
+
 if(process.env.JWT_SECRET) throw new Error('JWT_SECRET not found on .env')
 
 export const jwtConfig = {
