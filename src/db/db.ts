@@ -1,7 +1,8 @@
-import { IUser, IUserAuth } from "../interfaces";
+import usersDb from "./Scheema/UserSchema";
+import authDb from './Scheema/AuthSchema'
 
-export const users: IUser[] = []
-export const usersAuth: IUserAuth[] = []
+export const users = usersDb 
+export const usersAuth = authDb
 
 export const movies = [
   {

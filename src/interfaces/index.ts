@@ -6,7 +6,7 @@ export interface IUserAuth {
 export interface IUser {
   username: string
   name: string
-  id: string
+  id?: string
   createdAt?: Date
   token?: () => string
 }

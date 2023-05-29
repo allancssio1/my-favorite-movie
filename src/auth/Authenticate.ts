@@ -13,7 +13,8 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   if(!token) return res.status(401).json({message: 'Token é requerido'})
 
   const payload: any = jwt.verify(token, jwtConfig.secret)
-  console.log("🚀 ~ file: Authenticate.ts:16 ~ authenticate ~ payload:", payload)
+
+  if(!payload) return res.status(401).json({message: 'Token inválido'})
 
   req.body.user = JSON.parse(payload.user)
 

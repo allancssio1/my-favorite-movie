@@ -5,8 +5,7 @@ export const moviesController = {
   findAll: async (req: Request, res: Response) => {
     const {user} = req.body
 
-    
-    const movies = user && moviesModels.findMoviesAll()
+    const movies = user && await moviesModels.findMoviesAll()
 
     if(movies === null) return res.json([])
 

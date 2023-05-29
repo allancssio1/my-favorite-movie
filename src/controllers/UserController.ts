@@ -27,6 +27,7 @@ export const userController = {
     }
   },
   all: async (req: Request, res: Response) => {
-    return res.status(200).json(users)
+    const usersAll = await users.find() 
+    return res.status(200).json(usersAll)
   }
 }
